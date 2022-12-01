@@ -1,52 +1,49 @@
 import { createGlobalStyle } from 'styled-components';
 
-import GeneralSansRegularWoff2 from '../assets/fonts/GeneralSans-Regular.woff2';
-import GeneralSansRegularWoff from '../assets/fonts/GeneralSans-Regular.woff';
-import GeneralSansRegularTtf from '../assets/fonts/GeneralSans-Regular.ttf';
-import GeneralSansMediumWoff2 from '../assets/fonts/GeneralSans-Medium.woff2';
-import GeneralSansMediumWoff from '../assets/fonts/GeneralSans-Medium.woff';
-import GeneralSansMediumTtf from '../assets/fonts/GeneralSans-Medium.ttf';
-import GeneralSansSemiboldWoff2 from '../assets/fonts/GeneralSans-Semibold.woff2';
-import GeneralSansSemiboldWoff from '../assets/fonts/GeneralSans-Semibold.woff';
-import GeneralSansSemiboldTtf from '../assets/fonts/GeneralSans-Semibold.ttf';
+import PopinsRegular from '../assets/fonts/Poppins-Regular.ttf';
+import PopinsMedium from '../assets/fonts/Poppins-Medium.ttf';
+import PopinsBold from '../assets/fonts/Poppins-Bold.ttf';
+
 
 export const GlobalStyles = createGlobalStyle`
-@font-face {
-    font-family: 'GeneralSans';
+
+  @font-face {
+    font-family: 'Poppins';
     font-weight: 400;
-    font-display: 'swap';
-    font-style: 'normal';
-    src: url('${GeneralSansRegularWoff2}') format('woff2'),
-          url('${GeneralSansRegularWoff}') format('woff'),
-          url('${GeneralSansRegularTtf}') format('truetype');
+    src: url('${PopinsRegular}') format('truetype');
   }
 
   @font-face {
-    font-family: 'GeneralSans';
+    font-family: 'Poppins';
     font-weight: 500;
-    font-display: 'swap';
-    font-style: 'normal';
-    src: url('${GeneralSansMediumWoff2}') format('woff2'),
-          url('${GeneralSansMediumWoff}') format('woff'),
-          url('${GeneralSansMediumTtf}') format('truetype');
+    src: url('${PopinsMedium}') format('truetype');
   }
 
   @font-face {
-    font-family: 'GeneralSans';
-    font-weight: 600;
-    font-display: 'swap';
-    font-style: 'normal';
-    src: url('${GeneralSansSemiboldWoff2}') format('woff2'),
-          url('${GeneralSansSemiboldWoff}') format('woff'),
-          url('${GeneralSansSemiboldTtf}') format('truetype');
+    font-family: 'Poppins';
+    font-weight: 700;
+    src: url('${PopinsBold}') format('truetype');
   }
 
   * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: GeneralSans, sans-serif;
+    font-family: PoppinsRegular, sans-serif;
   }
+
+  :focus {
+    outline: 0;
+    box-shadow: 0 0 0 2px ${props => props.theme['blue']};
+  }
+
+  body {
+    background: ${props => props.theme['smoke']};
+    -webkit-font-smoothing: antialiased;
+
+  }
+
+
 
   // font-size: 16px (Desktop)
   html {
@@ -57,11 +54,6 @@ export const GlobalStyles = createGlobalStyle`
     @media (max-width: 720px) {
       font-size: 87.5%; //14px
     }
-  }
-
-  body {
-    background: #fafafa;
-    color: #333;
   }
 
   button {

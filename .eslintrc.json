@@ -19,6 +19,12 @@
     "@typescript-eslint"
   ],
   "rules": {
+    "@typescript-eslint/no-empty-interface": [
+      "error",
+      {
+        "allowSingleExtends": true
+      }
+    ],
     "react/react-in-jsx-scope": "off",
     "indent": [
       "error",

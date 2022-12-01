@@ -1,10 +1,15 @@
 import { GlobalStyles } from './styles/GlobalStyles';
+import { ThemeProvider } from 'styled-components';
+import { defaultTheme } from './styles/themes/default';
+import { Transactions } from './pages/Transactions';
 
 export function App() {
   return (
     <>
-      <GlobalStyles />
-      <h1>Hello World</h1>
+      <ThemeProvider theme={defaultTheme}>
+        <GlobalStyles />
+        <Transactions />
+      </ThemeProvider>
     </>
   );
 }
