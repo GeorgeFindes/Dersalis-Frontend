@@ -22,6 +22,7 @@ export const SummaryCard = styled.div<SummaryCardProps>`
   background: ${props => props.theme['gray']};
   border-radius: 0.75rem;
   padding: 3rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 
   header {
     display: flex;
@@ -33,7 +34,7 @@ export const SummaryCard = styled.div<SummaryCardProps>`
   }
 
   span {
-    width: 90%;
+    width: 60%;
   }
 
   strong {

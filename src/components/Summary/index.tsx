@@ -15,7 +15,7 @@ export function Summary() {
 
       <SummaryCard variant='green'>
         <header>
-          <span>Partidas concluidas com sucesso</span>
+          <span>Total de sucesso</span>
           <CheckCircle size={40} color="#fff" />
         </header>
 
@@ -24,7 +24,7 @@ export function Summary() {
 
       <SummaryCard variant='red'>
         <header>
-          <span>Partidas sem sucesso </span>
+          <span>Total de falhas</span>
           <XCircle size={40} color="#fff" />
         </header>
 

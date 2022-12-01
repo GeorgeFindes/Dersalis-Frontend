@@ -34,7 +34,7 @@ export const GlobalStyles = createGlobalStyle`
 
   :focus {
     outline: 0;
-    box-shadow: 0 0 0 2px ${props => props.theme['blue']};
+    box-shadow: 0 0 0 2px ${props => props.theme['light-gray']};
   }
 
   body {
