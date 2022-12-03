@@ -1,9 +1,38 @@
+import { useEffect, useState } from 'react';
 import { Header } from '../../components/Header';
 import { Summary } from '../../components/Summary';
 import { SearchForm } from './components';
 import { StatusHighLight, DashboardContainer, DashboardTable } from './styles';
 
+interface UserData {
+  id: number,
+  name: string,
+  company: string,
+  games: [{
+    id: number,
+    name: string,
+    status: 'Sucesso' | 'Falha',
+    createdAt: string
+  }]
+}
+
 export function Dashboard() {
+
+  const [usersData, setUserData] = useState<UserData[]>([]);
+
+  async function loadUsers() {
+    const response = await fetch('http://localhost:3333/users');
+    const data = await response.json();
+
+    setUserData(data);
+  }
+
+  useEffect(() => {
+    loadUsers();
+  }, []);
+
+
+
   return (
     <div>
       <Header />
@@ -24,49 +53,20 @@ export function Dashboard() {
           </thead>
 
           <tbody>
-            <tr>
-              <td>Mario Carlos Augusto</td>
-              <td>Empresa A</td>
-              <td>
-                <StatusHighLight variant='Sucesso'>
-                  Sucesso
-                </StatusHighLight>
-              </td>
-              <td>Detalhes</td>
-            </tr>
-
-            <tr>
-              <td>Mario Carlos Augusto</td>
-              <td>Empresa A</td>
-              <td>
-                <StatusHighLight variant='Falha'>
-                  Falha
-                </StatusHighLight>
-              </td>
-              <td>Detalhes</td>
-            </tr>
-
-            <tr>
-              <td>Caio Lopes Santos</td>
-              <td>Empresa A</td>
-              <td>
-                <StatusHighLight variant='Sucesso'>
-                  Sucesso
-                </StatusHighLight>
-              </td>
-              <td>Detalhes</td>
-            </tr>
-
-            <tr>
-              <td>Matheus Ferreira</td>
-              <td>Empresa C</td>
-              <td>
-                <StatusHighLight variant='Sucesso'>
-                  Sucesso
-                </StatusHighLight>
-              </td>
-              <td>Detalhes</td>
-            </tr>
+            {usersData.map(user => {
+              return (
+                <tr key={user.id}>
+                  <td>{user.name}</td>
+                  <td>{user.company}</td>
+                  <td>
+                    <StatusHighLight variant={user.games[0].status}>
+                      {user.games[0].status}
+                    </StatusHighLight>
+                  </td>
+                  <td>Detalhes</td>
+                </tr>
+              );
+            })}
           </tbody>
         </DashboardTable>
       </DashboardContainer>

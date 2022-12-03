@@ -34,7 +34,7 @@ export const DashboardTable = styled.table`
 
   /* Seleciona as linhas que são impares */
   tbody tr:nth-of-type(2n+1) {
-    background: #edece8;
+    background: ${props => props.theme['light-gray']};
   }
 
   tbody tr:last-of-type {

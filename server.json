@@ -1,0 +1,49 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Mario Carlos Augusto",
+      "company": "Empresa A",
+      "games": [
+        {
+          "id": 1,
+          "id_user": 1,
+          "status": "Sucesso",
+          "createdAt": "2022-12-02T18:31:01.847Z"
+        },
+        {
+          "id": 2,
+          "id_user": 1,
+          "status": "Falha",
+          "createdAt": "2022-12-02T18:31:01.847Z"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Caio Lopes Santos",
+      "company": "Empresa B",
+      "games": [
+        {
+          "id": 3,
+          "id_user": 2,
+          "status": "Sucesso",
+          "createdAt": "2022-12-02T18:31:01.847Z"
+        }
+      ]
+    },
+    {
+      "id": 3,
+      "name": "Matheus Ferreira",
+      "company": "Empresa C",
+      "games": [
+        {
+          "id": 4,
+          "id_user": 3,
+          "status": "Falha",
+          "createdAt": "2022-12-02T18:31:01.847Z"
+        }
+      ]
+    }
+  ]
+}
