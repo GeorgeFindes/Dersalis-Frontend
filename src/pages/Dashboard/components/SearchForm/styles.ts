@@ -33,7 +33,12 @@ export const SearchFormContainer = styled.form`
       border-radius: 6px;
       transition: filter 0.2s;
 
-      &:hover {
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):hover {
         filter: brightness(0.9);
       }
     }

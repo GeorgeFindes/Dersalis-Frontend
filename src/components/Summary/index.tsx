@@ -2,6 +2,7 @@ import { SummaryContainer, SummaryCard } from './styles';
 import { Truck, CheckCircle, XCircle } from 'phosphor-react';
 
 export function Summary() {
+
   return (
     <SummaryContainer>
       <SummaryCard>

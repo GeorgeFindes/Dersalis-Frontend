@@ -1,37 +1,14 @@
-import { useEffect, useState } from 'react';
+import { useContext } from 'react';
 import { Header } from '../../components/Header';
 import { Summary } from '../../components/Summary';
-import { SearchForm } from './components';
+import { ResultDataContext } from '../../contexts/ResultContext';
+import { dateFormatter } from '../../utils/formatter';
+import { SearchForm } from './components/SearchForm';
 import { StatusHighLight, DashboardContainer, DashboardTable } from './styles';
-
-interface UserData {
-  id: number,
-  name: string,
-  company: string,
-  games: [{
-    id: number,
-    name: string,
-    status: 'Sucesso' | 'Falha',
-    createdAt: string
-  }]
-}
 
 export function Dashboard() {
 
-  const [usersData, setUserData] = useState<UserData[]>([]);
-
-  async function loadUsers() {
-    const response = await fetch('http://localhost:3333/users');
-    const data = await response.json();
-
-    setUserData(data);
-  }
-
-  useEffect(() => {
-    loadUsers();
-  }, []);
-
-
+  const { resultsData } = useContext(ResultDataContext);
 
   return (
     <div>
@@ -47,20 +24,24 @@ export function Dashboard() {
             <tr>
               <th>Nome</th>
               <th>Empresa</th>
+              <th>Data Game</th>
               <th>Status</th>
               <th></th>
             </tr>
           </thead>
 
           <tbody>
-            {usersData.map(user => {
+            {resultsData.map(result => {
               return (
-                <tr key={user.id}>
-                  <td>{user.name}</td>
-                  <td>{user.company}</td>
+                <tr key={result.id}>
+                  <td>{result.name}</td>
+                  <td>{result.company}</td>
                   <td>
-                    <StatusHighLight variant={user.games[0].status}>
-                      {user.games[0].status}
+                    {dateFormatter.format(new Date(result.games[0].createdAt))}
+                  </td>
+                  <td>
+                    <StatusHighLight variant={result.games[0].status}>
+                      {result.games[0].status}
                     </StatusHighLight>
                   </td>
                   <td>Detalhes</td>

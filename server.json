@@ -1,5 +1,5 @@
 {
-  "users": [
+  "results": [
     {
       "id": 1,
       "name": "Mario Carlos Augusto",
@@ -8,13 +8,13 @@
         {
           "id": 1,
           "id_user": 1,
-          "status": "Sucesso",
+          "status": "Falha",
           "createdAt": "2022-12-02T18:31:01.847Z"
         },
         {
           "id": 2,
           "id_user": 1,
-          "status": "Falha",
+          "status": "Sucesso",
           "createdAt": "2022-12-02T18:31:01.847Z"
         }
       ]
