@@ -2,48 +2,83 @@
   "results": [
     {
       "id": 1,
-      "name": "Mario Carlos Augusto",
+      "enroll_user": "t1234",
+      "username": "Mario Carlos Augusto",
       "company": "Empresa A",
-      "games": [
-        {
-          "id": 1,
-          "id_user": 1,
-          "status": "Falha",
-          "createdAt": "2022-12-02T18:31:01.847Z"
-        },
-        {
-          "id": 2,
-          "id_user": 1,
-          "status": "Sucesso",
-          "createdAt": "2022-12-02T18:31:01.847Z"
-        }
-      ]
+      "status": "Sucesso",
+      "createdAt": "2022-12-02T18:31:01.847Z"
     },
     {
       "id": 2,
-      "name": "Caio Lopes Santos",
-      "company": "Empresa B",
-      "games": [
-        {
-          "id": 3,
-          "id_user": 2,
-          "status": "Sucesso",
-          "createdAt": "2022-12-02T18:31:01.847Z"
-        }
-      ]
+      "enroll_user": "t1234",
+      "username": "Mario Carlos Augusto",
+      "company": "Empresa A",
+      "status": "Falha",
+      "createdAt": "2022-12-02T18:31:01.847Z"
     },
     {
       "id": 3,
-      "name": "Matheus Ferreira",
-      "company": "Empresa C",
-      "games": [
-        {
-          "id": 4,
-          "id_user": 3,
-          "status": "Falha",
-          "createdAt": "2022-12-02T18:31:01.847Z"
-        }
-      ]
+      "enroll_user": "t1235",
+      "username": "Caio Lopes Santos",
+      "company": "Empresa B",
+      "status": "Sucesso",
+      "createdAt": "2022-12-02T18:31:01.847Z"
+    },
+    {
+      "id": 4,
+      "enroll_user": "t1236",
+      "username": "Mauricio Antonio Nunes",
+      "company": "Empresa A",
+      "status": "Falha",
+      "createdAt": "2022-12-02T18:31:01.847Z"
+    },
+    {
+      "id": 5,
+      "enroll_user": "t1237",
+      "username": "Lucas Gomes",
+      "company": "Empresa A",
+      "status": "Falha",
+      "createdAt": "2022-12-02T18:31:01.847Z"
+    },
+    {
+      "id": 6,
+      "enroll_user": "t1238",
+      "username": "Matheus Costa",
+      "company": "Empresa A",
+      "status": "Sucesso",
+      "createdAt": "2022-12-02T18:31:01.847Z"
+    },
+    {
+      "id": 7,
+      "enroll_user": "t1239",
+      "username": "Pedro Antonio",
+      "company": "Empresa A",
+      "status": "Falha",
+      "createdAt": "2022-12-02T18:31:01.847Z"
+    },
+    {
+      "id": 8,
+      "enroll_user": "t1240",
+      "username": "Yasmim Nunes",
+      "company": "Empresa A",
+      "status": "Falha",
+      "createdAt": "2022-12-02T18:31:01.847Z"
+    },
+    {
+      "id": 9,
+      "enroll_user": "t1241",
+      "username": "Natan Cypriano",
+      "company": "Empresa A",
+      "status": "Sucesso",
+      "createdAt": "2022-12-02T18:31:01.847Z"
+    },
+    {
+      "id": 10,
+      "enroll_user": "t1242",
+      "username": "Igor Taquete",
+      "company": "Empresa A",
+      "status": "Falha",
+      "createdAt": "2022-12-02T18:31:01.847Z"
     }
   ]
 }

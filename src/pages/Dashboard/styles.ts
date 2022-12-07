@@ -48,10 +48,43 @@ export const DashboardTable = styled.table`
 
 `;
 
+export const Pagination = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+`;
+
+export const PaginationButton = styled.div`
+  display: flex;
+`;
+
+interface isSelectPage {
+  isSelect?: boolean;
+}
+
+export const PaginationItem = styled.div<isSelectPage>`
+  margin: 0 0.5rem;
+  font-size: 1.1rem;
+  cursor: pointer;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: ${props => props.theme['light-gray']};
+  color: ${props => props.theme['gray']};
+
+  ${(props) => props.isSelect && {
+    background: '#01003D',
+    color: '#fff',
+  }}
+`;
+
+
+
+
 interface StatusHighLightProps {
   variant: 'Falha' | 'Sucesso';
 }
 
-export const StatusHighLight = styled.span<StatusHighLightProps> `
-  color: ${props => props.variant === 'Sucesso' ? props.theme['green'] : props.theme['red']}
+export const StatusHighLight = styled.span<StatusHighLightProps>`
+color: ${props => props.variant === 'Sucesso' ? props.theme['green'] : props.theme['red']}
 `;
+
