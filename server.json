@@ -80,5 +80,10 @@
       "status": "Falha",
       "createdAt": "2022-12-02T18:31:01.847Z"
     }
-  ]
+  ],
+  "summary": {
+    "total_match": 10,
+    "total_successes": 4,
+    "total_failures": 6
+  }
 }

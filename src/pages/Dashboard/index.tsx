@@ -1,14 +1,24 @@
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import * as Dialog from '@radix-ui/react-dialog';
 import { Header } from '../../components/Header';
 import { Summary } from '../../components/Summary';
-import { ResultDataContext } from '../../contexts/ResultContext';
 import { api } from '../../lib/axios';
 import { dateFormatter } from '../../utils/formatter';
-import { SearchForm } from './components/SearchForm';
-import { ArrowRight, ArrowLeft } from 'phosphor-react';
+import { CaretLeft, CaretRight, MagnifyingGlass, X } from 'phosphor-react';
+import { useForm } from 'react-hook-form';
+import * as z from 'zod';
+import { zodResolver } from '@hookform/resolvers/zod';
 
-import { StatusHighLight, DashboardContainer, DashboardTable, Pagination, PaginationButton, PaginationItem } from './styles';
+import {
+  StatusHighLight, DashboardContainer, DashboardTable,
+  Pagination, PaginationButton, Overlay,
+  Content, CloseButton, Description, Title, SearchFormContainer
+} from './styles';
 
+interface Medal {
+  id: string,
+  name: string,
+}
 
 interface ResultData {
   id: number,
@@ -17,42 +27,62 @@ interface ResultData {
   company: string,
   status: 'Sucesso' | 'Falha',
   createdAt: string,
+  collected_medals: Array<Medal>;
 }
+
+const searchFormSchema = z.object({
+  query: z.string(),
+});
+
+type SearchFormInputs = z.infer<typeof searchFormSchema>;
 
 
 export function Dashboard() {
 
-  // const { resultsData, totalData, pages, setCurrentPage } = useContext(ResultDataContext);
-
   const [resultsData, setResultsData] = useState<ResultData[]>([]);
   const [totalData, setTotalData] = useState<number | undefined>(0);
-  const [limit, setLimit] = useState(5);
-  const [pages, setPages] = useState([]);
+  const [limit, setLimit] = useState(8);
+  const [pages, setPages] = useState<number[]>([]);
   const [currentPage, setCurrentPage] = useState(1);
 
-  async function loadResults(query?: string) {
-    //http://localhost:3333/results?_page=1
-    //const response = await api.get('results',)
-    const response = await api.get(`results?_page=${currentPage}&_limit=5`, {
-      params: {
-        q: query,
-      }
+  const { register,
+    handleSubmit,
+    formState: { isSubmitting } } = useForm<SearchFormInputs>({
+      resolver: zodResolver(searchFormSchema),
     });
 
-    console.log(currentPage);
 
-    setTotalData(Number(response.headers['x-total-count']));
-    const totalPages = Math.ceil(totalData / limit);
+  async function loadResults(query?: string) {
 
-    const arrayPages = [];
+    let response;
 
-    for (let i = 1; i <= totalPages; i++) {
-      arrayPages.push(i);
+    if (query) {
+      response = await api.get('results', {
+        params: {
+          q: query
+        }
+      });
+
+    } else {
+      response = await api.get(`results?_page=${currentPage}&_limit=${limit}`);
+
+      setTotalData(Number(response.headers['x-total-count']));
+      const totalPages = totalData != undefined ? Math.ceil(totalData / limit) : 0;
+
+      const arrayPages = [];
+
+      for (let i = 1; i <= totalPages; i++) {
+        arrayPages.push(i);
+      }
+
+      setPages(arrayPages);
     }
 
-    setPages(arrayPages);
-
     setResultsData(response.data);
+  }
+
+  async function handleSearchResults(search: SearchFormInputs) {
+    await loadResults(search.query);
   }
 
   useEffect(() => {
@@ -61,14 +91,29 @@ export function Dashboard() {
 
 
   return (
-    <div>
+    <>
       <Header />
       <Summary />
 
+      {/* Container Dashboard */}
       <DashboardContainer>
 
-        <SearchForm />
+        {/* Formulário */}
+        <SearchFormContainer onSubmit={handleSubmit(handleSearchResults)}>
+          <input
+            type="text"
+            placeholder="Pesquisar por matricula"
+            {...register('query')}
+          />
 
+          <button type='submit' disabled={isSubmitting}>
+            <MagnifyingGlass size={20} />
+            Pesquisar
+          </button>
+
+        </SearchFormContainer>
+
+        {/* Tabela de Resultados */}
         <DashboardTable>
           <thead>
             <tr>
@@ -94,36 +139,70 @@ export function Dashboard() {
                       {result.status}
                     </StatusHighLight>
                   </td>
-                  <td>Detalhes</td>
+                  <Dialog.Root>
+                    <Dialog.Trigger asChild>
+                      <td>Detalhes</td>
+                    </Dialog.Trigger>
+
+
+                    <Dialog.Portal>
+                      <Overlay />
+
+                      <Content>
+                        <CloseButton>
+                          <X size={24} />
+                        </CloseButton>
+
+                        <Title>Resultado detalhado</Title>
+                        <Description><strong>Nome: </strong>{result.username}</Description>
+                        <Description><strong>Empresa: </strong>{result.company}</Description>
+                        <Description><strong>Status: </strong>{result.status}</Description>
+                        <Description><strong>Data: </strong>{dateFormatter.format(new Date(result.createdAt))}</Description>
+
+                        <Title>Insignias </Title>
+                      </Content>
+                    </Dialog.Portal>
+                  </Dialog.Root>
                 </tr>
               );
             })}
           </tbody>
         </DashboardTable>
-        <Pagination >
-          {/* <div>qtd {totalData}</div> */}
-          <PaginationButton>
-            {currentPage > 1 && (
-              <PaginationItem onClick={() => setCurrentPage(currentPage - 1)}>
-                <ArrowLeft size={20} />
-              </PaginationItem>
-            )}
-            {pages?.map(page => (
-              <PaginationItem
-                isSelect={page === currentPage}
-                key={page} onClick={() => setCurrentPage(page)}
-              >
-                {page}
-              </PaginationItem>
-            ))}
-            {currentPage < pages.length && (
-              <PaginationItem onClick={() => setCurrentPage(currentPage + 1)}>
-                <ArrowRight size={20} />
-              </PaginationItem>
-            )}
-          </PaginationButton>
+
+        {/* Paginação tabela */}
+        <Pagination>
+
+          {currentPage > 1 ? (
+            <PaginationButton onClick={() => setCurrentPage(currentPage - 1)}>
+              <CaretLeft size={18} />
+            </PaginationButton>
+          ) : (
+            <PaginationButton disabled={true}>
+              <CaretLeft size={18} />
+            </PaginationButton>)
+          }
+
+          {pages?.map(page => (
+            <PaginationButton
+              key={page}
+              isSelect={page === currentPage}
+              onClick={() => setCurrentPage(page)}
+            >
+              {page}
+            </PaginationButton>
+          ))}
+
+          {currentPage < pages.length ? (
+            <PaginationButton onClick={() => setCurrentPage(currentPage + 1)}>
+              <CaretRight size={18} />
+            </PaginationButton>
+          ) : (
+            <PaginationButton disabled={true}>
+              <CaretRight size={18} />
+            </PaginationButton>)
+          }
         </Pagination>
       </DashboardContainer>
-    </div>
+    </>
   );
 }

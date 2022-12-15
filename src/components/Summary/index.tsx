@@ -1,7 +1,29 @@
 import { SummaryContainer, SummaryCard } from './styles';
 import { Truck, CheckCircle, XCircle } from 'phosphor-react';
+import { useEffect, useState } from 'react';
+import { api } from '../../lib/axios';
+
+
+interface Data {
+  total_match: number,
+  total_successes: number,
+  total_failures: number
+}
+
 
 export function Summary() {
+
+  const [data, setData] = useState<Data>();
+
+  async function loadResults() {
+    const response = await api.get('summary');
+
+    setData(response.data);
+  }
+
+  useEffect(() => {
+    loadResults();
+  }, []);
 
   return (
     <SummaryContainer>
@@ -11,7 +33,7 @@ export function Summary() {
           <Truck size={40} color="#fff" />
         </header>
 
-        <strong>20</strong>
+        <strong>{data?.total_match}</strong>
       </SummaryCard>
 
       <SummaryCard variant='green'>
@@ -20,7 +42,7 @@ export function Summary() {
           <CheckCircle size={40} color="#fff" />
         </header>
 
-        <strong>15</strong>
+        <strong>{data?.total_successes}</strong>
       </SummaryCard>
 
       <SummaryCard variant='red'>
@@ -29,7 +51,7 @@ export function Summary() {
           <XCircle size={40} color="#fff" />
         </header>
 
-        <strong>5</strong>
+        <strong>{data?.total_failures}</strong>
       </SummaryCard>
 
     </SummaryContainer>

@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import * as Dialog from '@radix-ui/react-dialog';
 
 export const DashboardContainer = styled.main`
   width: 100%;
@@ -7,6 +8,53 @@ export const DashboardContainer = styled.main`
   padding: 0 1.5rem;
 `;
 
+
+//Formulário
+export const SearchFormContainer = styled.form`
+  display: flex;
+  gap: 1rem;
+
+  input {
+    flex: 1;
+    border-radius: 6px;
+    border: 0;
+    background: ${props => props.theme['light-gray']};
+    color: ${props => props.theme['gray']};
+    font-size: 1.1rem;
+    padding: 1rem;
+
+
+    &::placeholder {
+      color: ${props => props.theme['gray']};
+    }
+  }
+
+  button {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+
+      border: 0;
+      padding: 1rem;
+      background: ${props => props.theme['blue']};
+      color: ${props => props.theme['white']};
+      font-weight: bold;
+      border-radius: 6px;
+      transition: filter 0.2s;
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+
+      &:not(:disabled):hover {
+        filter: brightness(0.9);
+      }
+    }
+`;
+
+
+//Tabela
 export const DashboardTable = styled.table`
   width: 100%;
   border-collapse: collapse;
@@ -43,41 +91,94 @@ export const DashboardTable = styled.table`
 
   tbody td:last-of-type {
     cursor: pointer;
-    font-style: oblique;
+    color: ${props => props.theme['blue']};
+    text-decoration: underline;
   }
 
 `;
 
+
+//Modal
+export const CloseButton = styled(Dialog.Close)`
+  position: absolute;
+  background: transparent;
+  border: 0;
+  top: 1.5rem;
+  right: 1.5rem;
+  line-height: 0;
+  cursor: pointer;
+  color: ${props => props.theme['gray']};
+`;
+
+export const Overlay = styled(Dialog.Overlay)`
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+`;
+
+export const Content = styled(Dialog.Content)`
+  min-width: 40rem;
+  border-radius: 6px;
+  padding: 2.5rem 3rem;
+  background: ${props => props.theme['white']};
+
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+`;
+
+export const Title = styled(Dialog.Title)`
+  margin-top: 1.2rem;
+`;
+
+
+export const Description = styled(Dialog.Description)`
+  margin-top: 1rem;
+  font-size: 1.2rem;
+`;
+
+
+
+//Paginação
 export const Pagination = styled.div`
   display: flex;
   width: 100%;
   justify-content: center;
 `;
 
-export const PaginationButton = styled.div`
-  display: flex;
-`;
-
 interface isSelectPage {
   isSelect?: boolean;
 }
 
-export const PaginationItem = styled.div<isSelectPage>`
-  margin: 0 0.5rem;
+export const PaginationButton = styled.button<isSelectPage>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: -0.7rem 0.1rem;
   font-size: 1.1rem;
-  cursor: pointer;
-  padding: 4px 8px;
-  border-radius: 4px;
-  background: ${props => props.theme['light-gray']};
-  color: ${props => props.theme['gray']};
+  padding: 3px 9px;
+  border-radius: 6px;
+  border: solid 1px ${props => props.theme['light-gray']};
+  background: ${props => props.isSelect && (props.theme['blue'])};
+  color: ${props => props.isSelect ? props.theme['white'] : props.theme['gray']};
 
-  ${(props) => props.isSelect && {
-    background: '#01003D',
-    color: '#fff',
-  }}
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:last-of-type {
+    color: ${props => props.theme['blue']};
+  }
+
+  &:nth-of-type(1) {
+    color: ${props => props.theme['blue']};
+  }
 `;
-
-
 
 
 interface StatusHighLightProps {
