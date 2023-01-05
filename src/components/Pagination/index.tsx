@@ -15,7 +15,12 @@ export function Pagination({limit, total, skip, setSkip}: PaginationProps) {
 
   const current = skip ? (skip/limit) + 1 : 1;
   const pages = Math.ceil(total/limit);
-  const first = Math.max(current - MAX_LEFT, 1);
+  const maxFirst = Math.max(pages - (MAX_ITENS - 1), 1);
+
+  const first = Math.min(
+    Math.max(current - MAX_LEFT, 1),
+    maxFirst
+  );
 
   function onPageChange(page: number) {
     setSkip((page - 1) * limit);
