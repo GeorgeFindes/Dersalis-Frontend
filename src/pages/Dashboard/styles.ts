@@ -141,46 +141,6 @@ export const Description = styled(Dialog.Description)`
 `;
 
 
-
-//Paginação
-export const Pagination = styled.div`
-  display: flex;
-  width: 100%;
-  justify-content: center;
-`;
-
-interface isSelectPage {
-  isSelect?: boolean;
-}
-
-export const PaginationButton = styled.button<isSelectPage>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: -0.7rem 0.1rem;
-  font-size: 1.1rem;
-  padding: 3px 9px;
-  border-radius: 6px;
-  border: solid 1px ${props => props.theme['light-gray']};
-  background: ${props => props.isSelect && (props.theme['blue'])};
-  color: ${props => props.isSelect ? props.theme['white'] : props.theme['gray']};
-
-
-  &:disabled {
-    opacity: 0.5;
-    cursor: not-allowed;
-  }
-
-  &:last-of-type {
-    color: ${props => props.theme['blue']};
-  }
-
-  &:nth-of-type(1) {
-    color: ${props => props.theme['blue']};
-  }
-`;
-
-
 interface StatusHighLightProps {
   variant: 'Falha' | 'Sucesso';
 }

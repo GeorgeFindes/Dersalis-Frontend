@@ -4,30 +4,35 @@ import { Header } from '../../components/Header';
 import { Summary } from '../../components/Summary';
 import { api } from '../../lib/axios';
 import { dateFormatter } from '../../utils/formatter';
-import { CaretLeft, CaretRight, MagnifyingGlass, X } from 'phosphor-react';
+import { MagnifyingGlass, X } from 'phosphor-react';
 import { useForm } from 'react-hook-form';
 import * as z from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
 import {
-  StatusHighLight, DashboardContainer, DashboardTable,
-  Pagination, PaginationButton, Overlay,
+  StatusHighLight, DashboardContainer, DashboardTable, Overlay,
   Content, CloseButton, Description, Title, SearchFormContainer
 } from './styles';
+import { Pagination } from '../../components/Pagination';
 
 interface Medal {
   id: string,
   name: string,
 }
 
+interface MedalResult {
+  id: number,
+  medal: Medal
+}
+
 interface ResultData {
   id: number,
-  enroll_user: string,
+  user_registration: string,
   username: string,
   company: string,
   status: 'Sucesso' | 'Falha',
-  createdAt: string,
-  collected_medals: Array<Medal>;
+  created_at: string,
+  medal_result: Array<MedalResult>;
 }
 
 const searchFormSchema = z.object({
@@ -41,9 +46,8 @@ export function Dashboard() {
 
   const [resultsData, setResultsData] = useState<ResultData[]>([]);
   const [totalData, setTotalData] = useState<number | undefined>(0);
-  const [limit, setLimit] = useState(8);
-  const [pages, setPages] = useState<number[]>([]);
-  const [currentPage, setCurrentPage] = useState(1);
+  const [take, setTake] = useState(5);
+  const [skip, setSkip] = useState(0);
 
   const { register,
     handleSubmit,
@@ -57,26 +61,24 @@ export function Dashboard() {
     let response;
 
     if (query) {
-      response = await api.get('results', {
+      response = await api.get('/', {
         params: {
-          q: query
+          search: query,
+          take: take,
+          skip: 0
         }
       });
 
     } else {
-      response = await api.get(`results?_page=${currentPage}&_limit=${limit}`);
-
-      setTotalData(Number(response.headers['x-total-count']));
-      const totalPages = totalData != undefined ? Math.ceil(totalData / limit) : 0;
-
-      const arrayPages = [];
-
-      for (let i = 1; i <= totalPages; i++) {
-        arrayPages.push(i);
-      }
-
-      setPages(arrayPages);
+      response = await api.get('/', {
+        params: {
+          take: take,
+          skip: skip,
+        }
+      });
     }
+
+    setTotalData(Number(response.headers['x-total-count']));
 
     setResultsData(response.data);
   }
@@ -87,7 +89,7 @@ export function Dashboard() {
 
   useEffect(() => {
     loadResults();
-  }, [currentPage, limit, totalData]);
+  }, [skip]);
 
 
   return (
@@ -129,10 +131,10 @@ export function Dashboard() {
             {resultsData.map(result => {
               return (
                 <tr key={result.id}>
-                  <td>{result.enroll_user}</td>
+                  <td>{result.user_registration}</td>
                   <td>{result.company}</td>
                   <td>
-                    {dateFormatter.format(new Date(result.createdAt))}
+                    {dateFormatter.format(new Date(result.created_at))}
                   </td>
                   <td>
                     <StatusHighLight variant={result.status}>
@@ -157,7 +159,7 @@ export function Dashboard() {
                         <Description><strong>Nome: </strong>{result.username}</Description>
                         <Description><strong>Empresa: </strong>{result.company}</Description>
                         <Description><strong>Status: </strong>{result.status}</Description>
-                        <Description><strong>Data: </strong>{dateFormatter.format(new Date(result.createdAt))}</Description>
+                        <Description><strong>Data: </strong>{dateFormatter.format(new Date(result.created_at))}</Description>
 
                         <Title>Insignias </Title>
                       </Content>
@@ -170,38 +172,16 @@ export function Dashboard() {
         </DashboardTable>
 
         {/* Paginação tabela */}
-        <Pagination>
 
-          {currentPage > 1 ? (
-            <PaginationButton onClick={() => setCurrentPage(currentPage - 1)}>
-              <CaretLeft size={18} />
-            </PaginationButton>
-          ) : (
-            <PaginationButton disabled={true}>
-              <CaretLeft size={18} />
-            </PaginationButton>)
-          }
+        {totalData && (
+          <Pagination
+            limit={take}
+            total={totalData}
+            skip={skip}
+            setSkip={setSkip}
+          />
+        )}
 
-          {pages?.map(page => (
-            <PaginationButton
-              key={page}
-              isSelect={page === currentPage}
-              onClick={() => setCurrentPage(page)}
-            >
-              {page}
-            </PaginationButton>
-          ))}
-
-          {currentPage < pages.length ? (
-            <PaginationButton onClick={() => setCurrentPage(currentPage + 1)}>
-              <CaretRight size={18} />
-            </PaginationButton>
-          ) : (
-            <PaginationButton disabled={true}>
-              <CaretRight size={18} />
-            </PaginationButton>)
-          }
-        </Pagination>
       </DashboardContainer>
     </>
   );

@@ -16,7 +16,7 @@ export function Summary() {
   const [data, setData] = useState<Data>();
 
   async function loadResults() {
-    const response = await api.get('summary');
+    const response = await api.get('details');
 
     setData(response.data);
   }
