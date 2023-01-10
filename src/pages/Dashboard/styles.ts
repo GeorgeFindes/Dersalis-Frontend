@@ -92,7 +92,6 @@ export const DashboardTable = styled.table`
   tbody td:last-of-type {
     cursor: pointer;
     color: ${props => props.theme['blue']};
-    text-decoration: underline;
   }
 
 `;
@@ -134,25 +133,6 @@ export const MedalZone = styled.div`
   margin-top: 1rem;
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-
-  /* div {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: baseline;
-    padding: 3px;
-    text-align: center;
-  }
-
-  img {
-    width: 100px;
-    height: 100px;
-    object-fit: contain;
-  }
-
-  p {
-    font-size: 1.1rem;
-  } */
 `;
 
 

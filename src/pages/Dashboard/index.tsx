@@ -14,6 +14,7 @@ import {
   Content, CloseButton, Description, Title, SearchFormContainer, MedalZone, MedalComp
 } from './styles';
 import { Pagination } from '../../components/Pagination';
+import { TooltipComponent } from '../../components/Tooltip';
 
 interface Medal {
   id: number,
@@ -189,16 +190,25 @@ export function Dashboard() {
                         <Title>Insígnias coletadas</Title>
                         <hr />
 
+                        <Description>
+                          Foram Colhetadas {result.medal_result.length}/6 medalhas
+                        </Description>
+
                         <MedalZone>
                           {medals.map((medal) => (
                             <MedalComp
                               collect={hasMedal(medal, result.medal_result)}
                               key={medal.id}
                             >
-                              <img
-                                src={`http://localhost:3001/uploads/${medal.image_path}`}
-                                alt={medal.name}
-                              />
+
+                              <TooltipComponent
+                                text={medal.description}
+                              >
+                                <img
+                                  src={`http://localhost:3001/uploads/${medal.image_path}`}
+                                  alt={medal.name}
+                                />
+                              </TooltipComponent>
 
                               <h4>{medal.name}</h4>
                             </MedalComp>
