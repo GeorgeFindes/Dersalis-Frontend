@@ -119,9 +119,9 @@ export const Overlay = styled(Dialog.Overlay)`
 `;
 
 export const Content = styled(Dialog.Content)`
-  min-width: 40rem;
+  min-width: 15rem;
   border-radius: 6px;
-  padding: 2.5rem 3rem;
+  padding: 1.5rem 1.75rem;
   background: ${props => props.theme['white']};
 
   position: fixed;
@@ -130,8 +130,56 @@ export const Content = styled(Dialog.Content)`
   transform: translate(-50%,-50%);
 `;
 
+export const MedalZone = styled.div`
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  /* div {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: baseline;
+    padding: 3px;
+    text-align: center;
+  }
+
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+
+  p {
+    font-size: 1.1rem;
+  } */
+`;
+
+
+interface MedalCompProp {
+  collect: boolean;
+}
+
+export const MedalComp = styled.div<MedalCompProp>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: baseline;
+  padding: 3px;
+  text-align: center;
+  opacity: ${props => props.collect ? 1 : 0.3};
+
+  img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+  }
+`;
+
+
 export const Title = styled(Dialog.Title)`
   margin-top: 1.2rem;
+  margin-bottom: 0.2rem;
 `;
 
 
